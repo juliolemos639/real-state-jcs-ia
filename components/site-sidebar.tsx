@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, PlusCircle, MessageSquare, PanelLeftClose, PanelLeft } from "lucide-react";
+import { Home, PlusCircle, MessageSquare, PanelLeftClose, PanelLeft, FilterIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -11,6 +11,7 @@ const STORAGE_KEY = "sidebar-collapsed";
 
 const navItems = [
   { href: "/", label: "Imóveis", icon: Home },
+  { href: "/filters", label: "Filtros", icon: FilterIcon },
   { href: "/properties/new", label: "Adicionar", icon: PlusCircle },
   { href: "/enquiries", label: "Consultas", icon: MessageSquare },
 ] as const;
@@ -74,7 +75,7 @@ export function SiteSidebar() {
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive =
             href === "/" ? pathname === "/" : pathname.startsWith(href)
-            
+
           return (
             <Link
               key={href}

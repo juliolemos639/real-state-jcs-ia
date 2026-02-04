@@ -31,7 +31,7 @@ export function PropertyHeader({ propertyTitle }: PropertyHeaderProps) {
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
                         <BreadcrumbLink asChild>
-                            <Link href="/properties">Imóveis</Link>
+                            <Link href="/">Imóveis</Link>
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />

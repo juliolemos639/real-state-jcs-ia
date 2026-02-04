@@ -9,7 +9,7 @@ datasource db {
 
 
 model Property {
-  id          String    @id @default(cuid())
+  id          String    @id  @default(cuid())
   title       String
   description String?
   address     String
