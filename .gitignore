@@ -36,6 +36,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# uploads (pasta fica; arquivos enviados não são versionados)
+/public/uploads/*
+!/public/uploads/.gitkeep
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
