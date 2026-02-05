@@ -3,20 +3,28 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, PlusCircle, MessageSquare, PanelLeftClose, PanelLeft, FilterIcon } from "lucide-react";
+import { Home, PlusCircle, MessageSquare, PanelLeftClose, PanelLeft, FilterIcon, SettingsIcon, PenOffIcon, LogInIcon, LampDeskIcon, Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Separator } from "./ui/separator";
 
 const STORAGE_KEY = "sidebar-collapsed";
 
 const navItems = [
   { href: "/", label: "Imóveis", icon: Home },
   { href: "/filters", label: "Filtros", icon: FilterIcon },
-  { href: "/properties/new", label: "Adicionar", icon: PlusCircle },
   { href: "/enquiries", label: "Consultas", icon: MessageSquare },
+  { href: "/login", label: "Login/Cadastro", icon: LogInIcon },
+  // { href: "/manut", label: "Exclusivo JCS", icon: LampDeskIcon },
 ] as const;
 
+const navAdminItems = [
+  { href: "/properties/new", label: "Adicionar", icon: PlusCircle },
+] as const;
+
+
 export function SiteSidebar() {
+  const [isAdmin, setIsAdmin] = useState(false);
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(true);
 
@@ -71,6 +79,7 @@ export function SiteSidebar() {
           )}
         </Button>
       </div>
+
       <nav className="flex flex-1 flex-col gap-1 p-3">
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive =
@@ -85,6 +94,31 @@ export function SiteSidebar() {
                 "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                 collapsed && "justify-center px-0",
                 isActive
+                  ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                  : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              )}
+            >
+              <Icon className="size-5 shrink-0" />
+              {!collapsed && <span className="truncate">{label}</span>}
+            </Link>
+          );
+        })}
+
+        {/* <Separator /> */}
+        {/* Administração */}
+        {isAdmin && <Separator />}
+        {isAdmin && navAdminItems.map(({ href, label, icon: Icon }) => {
+          const isActiveAdmin =
+            href === "/properties/new" ? pathname === "/properties/new" : pathname.startsWith(href)
+          return (
+            <Link
+              key={href}
+              href={href}
+              title={collapsed ? label : undefined}
+              className={cn(
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                collapsed && "justify-center px-0",
+                isActiveAdmin
                   ? "bg-sidebar-accent text-sidebar-accent-foreground"
                   : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               )}

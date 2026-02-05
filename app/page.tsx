@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import Image from "next/image";
 import { getProperties } from "@/app/actions/properties";
@@ -13,6 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { DeletePropertyButton } from "@/components/delete-property-button";
 import { MapPin, Bed, Bath, Square } from "lucide-react";
+import { EditPropertyButton } from "@/components/edit-property-button";
 
 function formatPrice(value: string | { toString(): string }) {
   const n = Number(value);
@@ -24,14 +26,16 @@ function formatPrice(value: string | { toString(): string }) {
 
 export default async function HomePage() {
   const properties = await getProperties();
-
+  const isAdmin: boolean = false; // Replace with real auth logic
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold tracking-tight">Imóveis</h1>
-        <Button asChild>
-          <Link href="/properties/new">Adicionar imóvel</Link>
-        </Button>
+        {isAdmin && (
+          <Button asChild>
+            <Link href="/properties/new">Adicionar imóvel</Link>
+          </Button>
+        )}
       </div>
 
       {properties.length === 0 ? (
@@ -40,9 +44,11 @@ export default async function HomePage() {
             <p className="text-muted-foreground mb-4">
               Nenhum imóvel cadastrado ainda.
             </p>
-            <Button asChild>
-              <Link href="/properties/new">Cadastrar primeiro imóvel</Link>
-            </Button>
+            {isAdmin &&
+              <Button asChild>
+                <Link href="/properties/new">Cadastrar primeiro imóvel</Link>
+              </Button>
+            }
           </CardContent>
         </Card>
       ) : (
@@ -98,7 +104,12 @@ export default async function HomePage() {
                 <Button variant="outline" size="sm" asChild>
                   <Link href={`/property/${p.id}`}>Ver detalhes</Link>
                 </Button>
-                <DeletePropertyButton id={p.id} />
+                {isAdmin &&
+                  <div className="flex gap-2">
+                    <DeletePropertyButton id={p.id} />
+                    <EditPropertyButton id={p.id} />
+                  </div>
+                }
               </CardFooter>
             </Card>
           ))}
