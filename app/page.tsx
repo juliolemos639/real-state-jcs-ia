@@ -1,7 +1,6 @@
-
 import Link from "next/link";
 import Image from "next/image";
-import { getProperties } from "@/app/actions/properties";
+import { deleteProperty, getProperties } from "@/app/actions/properties";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,6 +14,8 @@ import { Badge } from "@/components/ui/badge";
 import { DeletePropertyButton } from "@/components/delete-property-button";
 import { MapPin, Bed, Bath, Square } from "lucide-react";
 import { EditPropertyButton } from "@/components/edit-property-button";
+import { ContextMenu } from "@/components/context-menu";
+import { NativeDelete } from "@/components/native-delete";
 
 function formatPrice(value: string | { toString(): string }) {
   const n = Number(value);
@@ -26,7 +27,7 @@ function formatPrice(value: string | { toString(): string }) {
 
 export default async function HomePage() {
   const properties = await getProperties();
-  const isAdmin: boolean = false; // Replace with real auth logic
+  const isAdmin: boolean = true; // Replace with real auth logic
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -69,9 +70,15 @@ export default async function HomePage() {
                     <Square className="size-12" />
                   </div>
                 )}
+
                 <div className="absolute right-2 top-2">
                   <Badge variant="secondary">{formatPrice(p.price)}</Badge>
                 </div>
+
+                <div className="absolute bottom-2 left-2">
+                  <Badge variant="secondary">Aluguel</Badge>
+                </div>
+
               </div>
               <CardHeader className="pb-2">
                 <CardTitle className="line-clamp-1 text-lg">
@@ -104,13 +111,20 @@ export default async function HomePage() {
                 <Button variant="outline" size="sm" asChild>
                   <Link href={`/property/${p.id}`}>Ver detalhes</Link>
                 </Button>
-                {isAdmin &&
+                {/* {isAdmin &&
                   <div className="flex gap-2">
                     <DeletePropertyButton id={p.id} />
                     <EditPropertyButton id={p.id} />
                   </div>
-                }
+                } */}
+
+
               </CardFooter>
+              {/* {isAdmin && (
+                <div className="flex w-full gap-2">
+                  <ContextMenu />
+                </div>)
+              } */}
             </Card>
           ))}
         </div>

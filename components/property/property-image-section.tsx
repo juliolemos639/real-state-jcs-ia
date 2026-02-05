@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
+import { Badge } from "../ui/badge";
 
 interface PropertyImageSectionProps {
     imageUrl: string | null;
@@ -32,6 +33,14 @@ export function PropertyImageSection({ imageUrl, title, alt }: PropertyImageSect
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                     priority
                 />
+                <div>
+                    {/* <span className="absolute top-2 left-2 bg-black bg-opacity-50 text-white text-sm px-2 py-1">
+                        Aluguel
+                    </span> */}
+                    <div className="absolute bottom-2 left-2 size-10">
+                        <Badge variant="secondary">Aluguel</Badge>
+                    </div>
+                </div>
             </div>
         </div>
     );

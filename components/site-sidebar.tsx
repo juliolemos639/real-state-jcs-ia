@@ -7,6 +7,7 @@ import { Home, PlusCircle, MessageSquare, PanelLeftClose, PanelLeft, FilterIcon,
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Separator } from "./ui/separator";
+import { AvatarProfile } from "./avatar-profile";
 
 const STORAGE_KEY = "sidebar-collapsed";
 
@@ -80,7 +81,7 @@ export function SiteSidebar() {
         </Button>
       </div>
 
-      <nav className="flex flex-1 flex-col gap-1 p-3">
+      <nav className="flex flex-1 flex-col gap-1 p-3 relative">
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive =
             href === "/" ? pathname === "/" : pathname.startsWith(href)
@@ -128,6 +129,10 @@ export function SiteSidebar() {
             </Link>
           );
         })}
+
+        <div className="flex absolute bottom-5 left-1/2 transform -translate-x-1/2 items-center justify-center">
+          <AvatarProfile />
+        </div>
       </nav>
     </aside>
   );
