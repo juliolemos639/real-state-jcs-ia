@@ -16,6 +16,7 @@ import { MapPin, Bed, Bath, Square } from "lucide-react";
 import { EditPropertyButton } from "@/components/edit-property-button";
 import { ContextMenu } from "@/components/context-menu";
 import { NativeDelete } from "@/components/native-delete";
+import { NativeFlipText } from "@/components/native-flip-text";
 
 function formatPrice(value: string | { toString(): string }) {
   const n = Number(value);
@@ -32,11 +33,21 @@ export default async function HomePage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold tracking-tight">Imóveis</h1>
-        {isAdmin && (
+
+        <div className="text-2xl font-medium text-muted-foreground flex items-center text-center gap-2">
+          {/* <span>Nós entregamos</span> */}
+          <NativeFlipText
+            words={["facilidade", "modernidade", "rapidez", "acessibilidade"]}
+            className="text-primary font-bold"
+            duration={1500}
+          />
+          <span>aos nossos clientes.</span>
+        </div>
+        {/* {isAdmin && (
           <Button asChild>
             <Link href="/properties/new">Adicionar imóvel</Link>
           </Button>
-        )}
+        )} */}
       </div>
 
       {properties.length === 0 ? (
