@@ -10,7 +10,10 @@ import {
     Map,
     Settings2,
     FilterIcon,
-    BookIcon
+    BookIcon,
+    Plus,
+    List,
+    PlusIcon,
 } from "lucide-react"
 
 import {
@@ -24,6 +27,8 @@ import {
 import { NavMain } from "./nav-main"
 import { NavCommomItems } from "./nav-commom-items"
 import { NavUser } from "./nav-user"
+import Link from "next/link"
+import { Button } from "../ui/button"
 
 
 // This is sample data.
@@ -88,7 +93,7 @@ const data = {
         },
 
     ],
-    useritems: [
+    singleItems: [
         {
             name: "Consultas",
             url: "#",
@@ -103,6 +108,28 @@ const data = {
             name: "Travel",
             url: "#",
             icon: Map,
+        },
+    ],
+    jcsItems: [
+        {
+            name: "Cadastrar imóvel",
+            url: "/properties/new",
+            icon: PlusIcon,
+        },
+        {
+            name: "Listar imóveis",
+            url: "/properties",
+            icon: List,
+        },
+        {
+            name: "Listar Inquilinos",
+            url: "/inquilinos",
+            icon: List,
+        },
+        {
+            name: "Listar Proprietários",
+            url: "/proprietarios",
+            icon: List,
         },
     ],
 }
@@ -125,7 +152,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain} />
-                <NavCommomItems userItems={data.useritems} />
+                <NavCommomItems userItems={data.singleItems} />
+                <NavCommomItems userItems={data.jcsItems} />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser user={data.user} />
