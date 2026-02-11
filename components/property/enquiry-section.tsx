@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { EnquiryForm } from "@/components/enquiry-form";
+import { EnquiryForm } from "./enquiry-form";
 
 interface EnquirySectionProps {
     propertyId: string;

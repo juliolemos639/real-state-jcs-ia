@@ -9,13 +9,6 @@ import {
 } from "lucide-react"
 
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
     SidebarContent,
     SidebarGroup,
     SidebarGroupLabel,
@@ -26,7 +19,7 @@ import {
     useSidebar,
 } from "@/components/ui/sidebar"
 
-export function UserItems({
+export function NavCommomItems({
     userItems,
 }: {
     userItems: {

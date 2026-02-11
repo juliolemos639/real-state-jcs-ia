@@ -3,16 +3,14 @@
 import * as React from "react"
 import {
     AudioWaveform,
-    BookOpen,
-    Bot,
     Command,
     Frame,
     GalleryVerticalEnd,
     HomeIcon,
     Map,
-    PieChart,
     Settings2,
-    SquareTerminal,
+    FilterIcon,
+    BookIcon
 } from "lucide-react"
 
 import {
@@ -24,8 +22,7 @@ import {
     useSidebar,
 } from "@/components/ui/sidebar"
 import { NavMain } from "./nav-main"
-import { TeamSwitcher } from "./team-swircher"
-import { UserItems } from "./user-items"
+import { NavCommomItems } from "./nav-commom-items"
 import { NavUser } from "./nav-user"
 
 
@@ -56,17 +53,17 @@ const data = {
     navMain: [
         {
             title: "Imóveis",
-            url: "#",
+            url: "/",
             icon: HomeIcon,
             isActive: true,
             items: [
                 {
                     title: "Aluguel",
-                    url: "#",
+                    url: "/properties/rent",
                 },
                 {
                     title: "Venda",
-                    url: "#",
+                    url: "/properties/sale",
                 },
             ],
         },
@@ -95,12 +92,12 @@ const data = {
         {
             name: "Consultas",
             url: "#",
-            icon: Frame,
+            icon: BookIcon,
         },
         {
             name: "Filtros",
-            url: "#",
-            icon: PieChart,
+            url: "/filters",
+            icon: FilterIcon,
         },
         {
             name: "Travel",
@@ -128,7 +125,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain} />
-                <UserItems userItems={data.useritems} />
+                <NavCommomItems userItems={data.useritems} />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser user={data.user} />

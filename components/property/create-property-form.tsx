@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { createPropertyWithUpload } from "@/app/actions/properties";
 import { Loader2, ImageIcon, ExternalLink } from "lucide-react";
 import Property from "@/app/property/[id]/page";
-import { PropertyHeader } from "./property/property-header";
+import { PropertyHeader } from "./property-header";
 
 export function CreatePropertyForm() {
   const router = useRouter();
