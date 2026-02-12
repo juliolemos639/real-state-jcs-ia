@@ -25,6 +25,15 @@ interface Property {
     updatedAt: string;
 }
 
+interface Owner {
+    id: string;
+    name: string;
+    address?: string | null;
+    phone?: string | null;
+    email?: string | null;
+    imageUrl?: string | null;
+}
+
 interface Enquiry {
     id: string;
     propertyId: string;
@@ -37,6 +46,7 @@ interface Enquiry {
 
 interface PropertyWithEnquiries extends Property {
     enquiries: Enquiry[];
+    owner?: Owner | null;
 }
 
 export default async function Property({

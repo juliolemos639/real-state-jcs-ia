@@ -27,3 +27,8 @@ export type Property = Prisma.PropertyModel
  * 
  */
 export type Enquiry = Prisma.EnquiryModel
+/**
+ * Model Owner
+ * 
+ */
+export type Owner = Prisma.OwnerModel

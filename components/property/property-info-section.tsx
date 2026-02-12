@@ -37,6 +37,29 @@ export function PropertyInfoSection({ property }: PropertyInfoSectionProps) {
 
     return (
         <div className="space-y-6">
+            {/* Owner Info */}
+            {"owner" in property && (property as any).owner ? (
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-xl">Proprietário</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex items-center gap-4">
+                            {((property as any).owner.imageUrl) ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img src={(property as any).owner.imageUrl} alt={`Foto de ${(property as any).owner.name}`} className="h-16 w-16 rounded-md object-cover" />
+                            ) : (
+                                <div className="h-16 w-16 rounded-md bg-muted" />
+                            )}
+                            <div>
+                                <div className="font-medium">{(property as any).owner.name}</div>
+                                <div className="text-sm text-muted-foreground">{(property as any).owner.address}</div>
+                                <div className="text-sm text-muted-foreground">{(property as any).owner.phone} {(property as any).owner.email ? `• ${(property as any).owner.email}` : ""}</div>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            ) : null}
             {/* Property Title and Price */}
             <div>
                 <h1 className="text-3xl font-bold mb-2">{property.title}</h1>

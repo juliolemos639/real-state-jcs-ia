@@ -35,12 +35,22 @@ export async function getPropertyById(id: string) {
   console.log("Fetching property with id:", id);
   const property = await prisma.property.findUnique({
     where: { id },
-    include: { enquiries: { orderBy: { createdAt: "desc" } } },
+    include: { enquiries: { orderBy: { createdAt: "desc" } }, owner: true },
   });
   if (!property) return null;
   return {
     ...serializeProperty(property),
     enquiries: property.enquiries.map(serializeEnquiry),
+    owner: property.owner
+      ? {
+        id: property.owner.id,
+        name: property.owner.name,
+        address: property.owner.address || null,
+        phone: property.owner.phone || null,
+        email: property.owner.email || null,
+        imageUrl: property.owner.imageUrl || null,
+      }
+      : null,
   };
 }
 

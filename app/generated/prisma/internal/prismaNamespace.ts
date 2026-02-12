@@ -385,7 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Property: 'Property',
-  Enquiry: 'Enquiry'
+  Enquiry: 'Enquiry',
+  Owner: 'Owner'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -401,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "property" | "enquiry"
+    modelProps: "property" | "enquiry" | "owner"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -553,6 +554,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Owner: {
+      payload: Prisma.$OwnerPayload<ExtArgs>
+      fields: Prisma.OwnerFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OwnerFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OwnerPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OwnerFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OwnerPayload>
+        }
+        findFirst: {
+          args: Prisma.OwnerFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OwnerPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OwnerFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OwnerPayload>
+        }
+        findMany: {
+          args: Prisma.OwnerFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OwnerPayload>[]
+        }
+        create: {
+          args: Prisma.OwnerCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OwnerPayload>
+        }
+        createMany: {
+          args: Prisma.OwnerCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OwnerCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OwnerPayload>[]
+        }
+        delete: {
+          args: Prisma.OwnerDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OwnerPayload>
+        }
+        update: {
+          args: Prisma.OwnerUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OwnerPayload>
+        }
+        deleteMany: {
+          args: Prisma.OwnerDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OwnerUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OwnerUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OwnerPayload>[]
+        }
+        upsert: {
+          args: Prisma.OwnerUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OwnerPayload>
+        }
+        aggregate: {
+          args: Prisma.OwnerAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOwner>
+        }
+        groupBy: {
+          args: Prisma.OwnerGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OwnerGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OwnerCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OwnerCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -602,6 +677,7 @@ export const PropertyScalarFieldEnum = {
   bathrooms: 'bathrooms',
   area: 'area',
   imageUrl: 'imageUrl',
+  ownerId: 'ownerId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -620,6 +696,20 @@ export const EnquiryScalarFieldEnum = {
 } as const
 
 export type EnquiryScalarFieldEnum = (typeof EnquiryScalarFieldEnum)[keyof typeof EnquiryScalarFieldEnum]
+
+
+export const OwnerScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  address: 'address',
+  phone: 'phone',
+  email: 'email',
+  imageUrl: 'imageUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OwnerScalarFieldEnum = (typeof OwnerScalarFieldEnum)[keyof typeof OwnerScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -818,6 +908,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   property?: Prisma.PropertyOmit
   enquiry?: Prisma.EnquiryOmit
+  owner?: Prisma.OwnerOmit
 }
 
 /* Types for Logging */

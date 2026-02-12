@@ -50,6 +50,7 @@ export type PropertyMinAggregateOutputType = {
   bathrooms: number | null
   area: number | null
   imageUrl: string | null
+  ownerId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -64,6 +65,7 @@ export type PropertyMaxAggregateOutputType = {
   bathrooms: number | null
   area: number | null
   imageUrl: string | null
+  ownerId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -78,6 +80,7 @@ export type PropertyCountAggregateOutputType = {
   bathrooms: number
   area: number
   imageUrl: number
+  ownerId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -108,6 +111,7 @@ export type PropertyMinAggregateInputType = {
   bathrooms?: true
   area?: true
   imageUrl?: true
+  ownerId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -122,6 +126,7 @@ export type PropertyMaxAggregateInputType = {
   bathrooms?: true
   area?: true
   imageUrl?: true
+  ownerId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -136,6 +141,7 @@ export type PropertyCountAggregateInputType = {
   bathrooms?: true
   area?: true
   imageUrl?: true
+  ownerId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -237,6 +243,7 @@ export type PropertyGroupByOutputType = {
   bathrooms: number
   area: number | null
   imageUrl: string | null
+  ownerId: string | null
   createdAt: Date
   updatedAt: Date
   _count: PropertyCountAggregateOutputType | null
@@ -274,8 +281,10 @@ export type PropertyWhereInput = {
   bathrooms?: Prisma.IntFilter<"Property"> | number
   area?: Prisma.IntNullableFilter<"Property"> | number | null
   imageUrl?: Prisma.StringNullableFilter<"Property"> | string | null
+  ownerId?: Prisma.StringNullableFilter<"Property"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Property"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Property"> | Date | string
+  owner?: Prisma.XOR<Prisma.OwnerNullableScalarRelationFilter, Prisma.OwnerWhereInput> | null
   enquiries?: Prisma.EnquiryListRelationFilter
 }
 
@@ -289,8 +298,10 @@ export type PropertyOrderByWithRelationInput = {
   bathrooms?: Prisma.SortOrder
   area?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  ownerId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  owner?: Prisma.OwnerOrderByWithRelationInput
   enquiries?: Prisma.EnquiryOrderByRelationAggregateInput
 }
 
@@ -307,8 +318,10 @@ export type PropertyWhereUniqueInput = Prisma.AtLeast<{
   bathrooms?: Prisma.IntFilter<"Property"> | number
   area?: Prisma.IntNullableFilter<"Property"> | number | null
   imageUrl?: Prisma.StringNullableFilter<"Property"> | string | null
+  ownerId?: Prisma.StringNullableFilter<"Property"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Property"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Property"> | Date | string
+  owner?: Prisma.XOR<Prisma.OwnerNullableScalarRelationFilter, Prisma.OwnerWhereInput> | null
   enquiries?: Prisma.EnquiryListRelationFilter
 }, "id">
 
@@ -322,6 +335,7 @@ export type PropertyOrderByWithAggregationInput = {
   bathrooms?: Prisma.SortOrder
   area?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  ownerId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PropertyCountOrderByAggregateInput
@@ -344,6 +358,7 @@ export type PropertyScalarWhereWithAggregatesInput = {
   bathrooms?: Prisma.IntWithAggregatesFilter<"Property"> | number
   area?: Prisma.IntNullableWithAggregatesFilter<"Property"> | number | null
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Property"> | string | null
+  ownerId?: Prisma.StringNullableWithAggregatesFilter<"Property"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Property"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Property"> | Date | string
 }
@@ -360,6 +375,7 @@ export type PropertyCreateInput = {
   imageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  owner?: Prisma.OwnerCreateNestedOneWithoutPropertiesInput
   enquiries?: Prisma.EnquiryCreateNestedManyWithoutPropertyInput
 }
 
@@ -373,6 +389,7 @@ export type PropertyUncheckedCreateInput = {
   bathrooms?: number
   area?: number | null
   imageUrl?: string | null
+  ownerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   enquiries?: Prisma.EnquiryUncheckedCreateNestedManyWithoutPropertyInput
@@ -390,6 +407,7 @@ export type PropertyUpdateInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.OwnerUpdateOneWithoutPropertiesNestedInput
   enquiries?: Prisma.EnquiryUpdateManyWithoutPropertyNestedInput
 }
 
@@ -403,6 +421,7 @@ export type PropertyUncheckedUpdateInput = {
   bathrooms?: Prisma.IntFieldUpdateOperationsInput | number
   area?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   enquiries?: Prisma.EnquiryUncheckedUpdateManyWithoutPropertyNestedInput
@@ -418,6 +437,7 @@ export type PropertyCreateManyInput = {
   bathrooms?: number
   area?: number | null
   imageUrl?: string | null
+  ownerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -446,6 +466,7 @@ export type PropertyUncheckedUpdateManyInput = {
   bathrooms?: Prisma.IntFieldUpdateOperationsInput | number
   area?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -460,6 +481,7 @@ export type PropertyCountOrderByAggregateInput = {
   bathrooms?: Prisma.SortOrder
   area?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -481,6 +503,7 @@ export type PropertyMaxOrderByAggregateInput = {
   bathrooms?: Prisma.SortOrder
   area?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -495,6 +518,7 @@ export type PropertyMinOrderByAggregateInput = {
   bathrooms?: Prisma.SortOrder
   area?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -509,6 +533,16 @@ export type PropertySumOrderByAggregateInput = {
 export type PropertyScalarRelationFilter = {
   is?: Prisma.PropertyWhereInput
   isNot?: Prisma.PropertyWhereInput
+}
+
+export type PropertyListRelationFilter = {
+  every?: Prisma.PropertyWhereInput
+  some?: Prisma.PropertyWhereInput
+  none?: Prisma.PropertyWhereInput
+}
+
+export type PropertyOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -561,6 +595,48 @@ export type PropertyUpdateOneRequiredWithoutEnquiriesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PropertyUpdateToOneWithWhereWithoutEnquiriesInput, Prisma.PropertyUpdateWithoutEnquiriesInput>, Prisma.PropertyUncheckedUpdateWithoutEnquiriesInput>
 }
 
+export type PropertyCreateNestedManyWithoutOwnerInput = {
+  create?: Prisma.XOR<Prisma.PropertyCreateWithoutOwnerInput, Prisma.PropertyUncheckedCreateWithoutOwnerInput> | Prisma.PropertyCreateWithoutOwnerInput[] | Prisma.PropertyUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.PropertyCreateOrConnectWithoutOwnerInput | Prisma.PropertyCreateOrConnectWithoutOwnerInput[]
+  createMany?: Prisma.PropertyCreateManyOwnerInputEnvelope
+  connect?: Prisma.PropertyWhereUniqueInput | Prisma.PropertyWhereUniqueInput[]
+}
+
+export type PropertyUncheckedCreateNestedManyWithoutOwnerInput = {
+  create?: Prisma.XOR<Prisma.PropertyCreateWithoutOwnerInput, Prisma.PropertyUncheckedCreateWithoutOwnerInput> | Prisma.PropertyCreateWithoutOwnerInput[] | Prisma.PropertyUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.PropertyCreateOrConnectWithoutOwnerInput | Prisma.PropertyCreateOrConnectWithoutOwnerInput[]
+  createMany?: Prisma.PropertyCreateManyOwnerInputEnvelope
+  connect?: Prisma.PropertyWhereUniqueInput | Prisma.PropertyWhereUniqueInput[]
+}
+
+export type PropertyUpdateManyWithoutOwnerNestedInput = {
+  create?: Prisma.XOR<Prisma.PropertyCreateWithoutOwnerInput, Prisma.PropertyUncheckedCreateWithoutOwnerInput> | Prisma.PropertyCreateWithoutOwnerInput[] | Prisma.PropertyUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.PropertyCreateOrConnectWithoutOwnerInput | Prisma.PropertyCreateOrConnectWithoutOwnerInput[]
+  upsert?: Prisma.PropertyUpsertWithWhereUniqueWithoutOwnerInput | Prisma.PropertyUpsertWithWhereUniqueWithoutOwnerInput[]
+  createMany?: Prisma.PropertyCreateManyOwnerInputEnvelope
+  set?: Prisma.PropertyWhereUniqueInput | Prisma.PropertyWhereUniqueInput[]
+  disconnect?: Prisma.PropertyWhereUniqueInput | Prisma.PropertyWhereUniqueInput[]
+  delete?: Prisma.PropertyWhereUniqueInput | Prisma.PropertyWhereUniqueInput[]
+  connect?: Prisma.PropertyWhereUniqueInput | Prisma.PropertyWhereUniqueInput[]
+  update?: Prisma.PropertyUpdateWithWhereUniqueWithoutOwnerInput | Prisma.PropertyUpdateWithWhereUniqueWithoutOwnerInput[]
+  updateMany?: Prisma.PropertyUpdateManyWithWhereWithoutOwnerInput | Prisma.PropertyUpdateManyWithWhereWithoutOwnerInput[]
+  deleteMany?: Prisma.PropertyScalarWhereInput | Prisma.PropertyScalarWhereInput[]
+}
+
+export type PropertyUncheckedUpdateManyWithoutOwnerNestedInput = {
+  create?: Prisma.XOR<Prisma.PropertyCreateWithoutOwnerInput, Prisma.PropertyUncheckedCreateWithoutOwnerInput> | Prisma.PropertyCreateWithoutOwnerInput[] | Prisma.PropertyUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.PropertyCreateOrConnectWithoutOwnerInput | Prisma.PropertyCreateOrConnectWithoutOwnerInput[]
+  upsert?: Prisma.PropertyUpsertWithWhereUniqueWithoutOwnerInput | Prisma.PropertyUpsertWithWhereUniqueWithoutOwnerInput[]
+  createMany?: Prisma.PropertyCreateManyOwnerInputEnvelope
+  set?: Prisma.PropertyWhereUniqueInput | Prisma.PropertyWhereUniqueInput[]
+  disconnect?: Prisma.PropertyWhereUniqueInput | Prisma.PropertyWhereUniqueInput[]
+  delete?: Prisma.PropertyWhereUniqueInput | Prisma.PropertyWhereUniqueInput[]
+  connect?: Prisma.PropertyWhereUniqueInput | Prisma.PropertyWhereUniqueInput[]
+  update?: Prisma.PropertyUpdateWithWhereUniqueWithoutOwnerInput | Prisma.PropertyUpdateWithWhereUniqueWithoutOwnerInput[]
+  updateMany?: Prisma.PropertyUpdateManyWithWhereWithoutOwnerInput | Prisma.PropertyUpdateManyWithWhereWithoutOwnerInput[]
+  deleteMany?: Prisma.PropertyScalarWhereInput | Prisma.PropertyScalarWhereInput[]
+}
+
 export type PropertyCreateWithoutEnquiriesInput = {
   id?: string
   title: string
@@ -573,6 +649,7 @@ export type PropertyCreateWithoutEnquiriesInput = {
   imageUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  owner?: Prisma.OwnerCreateNestedOneWithoutPropertiesInput
 }
 
 export type PropertyUncheckedCreateWithoutEnquiriesInput = {
@@ -585,6 +662,7 @@ export type PropertyUncheckedCreateWithoutEnquiriesInput = {
   bathrooms?: number
   area?: number | null
   imageUrl?: string | null
+  ownerId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -617,9 +695,143 @@ export type PropertyUpdateWithoutEnquiriesInput = {
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.OwnerUpdateOneWithoutPropertiesNestedInput
 }
 
 export type PropertyUncheckedUpdateWithoutEnquiriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bedrooms?: Prisma.IntFieldUpdateOperationsInput | number
+  bathrooms?: Prisma.IntFieldUpdateOperationsInput | number
+  area?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PropertyCreateWithoutOwnerInput = {
+  id?: string
+  title: string
+  description?: string | null
+  address: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  bedrooms?: number
+  bathrooms?: number
+  area?: number | null
+  imageUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  enquiries?: Prisma.EnquiryCreateNestedManyWithoutPropertyInput
+}
+
+export type PropertyUncheckedCreateWithoutOwnerInput = {
+  id?: string
+  title: string
+  description?: string | null
+  address: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  bedrooms?: number
+  bathrooms?: number
+  area?: number | null
+  imageUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  enquiries?: Prisma.EnquiryUncheckedCreateNestedManyWithoutPropertyInput
+}
+
+export type PropertyCreateOrConnectWithoutOwnerInput = {
+  where: Prisma.PropertyWhereUniqueInput
+  create: Prisma.XOR<Prisma.PropertyCreateWithoutOwnerInput, Prisma.PropertyUncheckedCreateWithoutOwnerInput>
+}
+
+export type PropertyCreateManyOwnerInputEnvelope = {
+  data: Prisma.PropertyCreateManyOwnerInput | Prisma.PropertyCreateManyOwnerInput[]
+  skipDuplicates?: boolean
+}
+
+export type PropertyUpsertWithWhereUniqueWithoutOwnerInput = {
+  where: Prisma.PropertyWhereUniqueInput
+  update: Prisma.XOR<Prisma.PropertyUpdateWithoutOwnerInput, Prisma.PropertyUncheckedUpdateWithoutOwnerInput>
+  create: Prisma.XOR<Prisma.PropertyCreateWithoutOwnerInput, Prisma.PropertyUncheckedCreateWithoutOwnerInput>
+}
+
+export type PropertyUpdateWithWhereUniqueWithoutOwnerInput = {
+  where: Prisma.PropertyWhereUniqueInput
+  data: Prisma.XOR<Prisma.PropertyUpdateWithoutOwnerInput, Prisma.PropertyUncheckedUpdateWithoutOwnerInput>
+}
+
+export type PropertyUpdateManyWithWhereWithoutOwnerInput = {
+  where: Prisma.PropertyScalarWhereInput
+  data: Prisma.XOR<Prisma.PropertyUpdateManyMutationInput, Prisma.PropertyUncheckedUpdateManyWithoutOwnerInput>
+}
+
+export type PropertyScalarWhereInput = {
+  AND?: Prisma.PropertyScalarWhereInput | Prisma.PropertyScalarWhereInput[]
+  OR?: Prisma.PropertyScalarWhereInput[]
+  NOT?: Prisma.PropertyScalarWhereInput | Prisma.PropertyScalarWhereInput[]
+  id?: Prisma.StringFilter<"Property"> | string
+  title?: Prisma.StringFilter<"Property"> | string
+  description?: Prisma.StringNullableFilter<"Property"> | string | null
+  address?: Prisma.StringFilter<"Property"> | string
+  price?: Prisma.DecimalFilter<"Property"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bedrooms?: Prisma.IntFilter<"Property"> | number
+  bathrooms?: Prisma.IntFilter<"Property"> | number
+  area?: Prisma.IntNullableFilter<"Property"> | number | null
+  imageUrl?: Prisma.StringNullableFilter<"Property"> | string | null
+  ownerId?: Prisma.StringNullableFilter<"Property"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Property"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Property"> | Date | string
+}
+
+export type PropertyCreateManyOwnerInput = {
+  id?: string
+  title: string
+  description?: string | null
+  address: string
+  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  bedrooms?: number
+  bathrooms?: number
+  area?: number | null
+  imageUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PropertyUpdateWithoutOwnerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bedrooms?: Prisma.IntFieldUpdateOperationsInput | number
+  bathrooms?: Prisma.IntFieldUpdateOperationsInput | number
+  area?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  enquiries?: Prisma.EnquiryUpdateManyWithoutPropertyNestedInput
+}
+
+export type PropertyUncheckedUpdateWithoutOwnerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  bedrooms?: Prisma.IntFieldUpdateOperationsInput | number
+  bathrooms?: Prisma.IntFieldUpdateOperationsInput | number
+  area?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  enquiries?: Prisma.EnquiryUncheckedUpdateManyWithoutPropertyNestedInput
+}
+
+export type PropertyUncheckedUpdateManyWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -674,8 +886,10 @@ export type PropertySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   bathrooms?: boolean
   area?: boolean
   imageUrl?: boolean
+  ownerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  owner?: boolean | Prisma.Property$ownerArgs<ExtArgs>
   enquiries?: boolean | Prisma.Property$enquiriesArgs<ExtArgs>
   _count?: boolean | Prisma.PropertyCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["property"]>
@@ -690,8 +904,10 @@ export type PropertySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   bathrooms?: boolean
   area?: boolean
   imageUrl?: boolean
+  ownerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  owner?: boolean | Prisma.Property$ownerArgs<ExtArgs>
 }, ExtArgs["result"]["property"]>
 
 export type PropertySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -704,8 +920,10 @@ export type PropertySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   bathrooms?: boolean
   area?: boolean
   imageUrl?: boolean
+  ownerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  owner?: boolean | Prisma.Property$ownerArgs<ExtArgs>
 }, ExtArgs["result"]["property"]>
 
 export type PropertySelectScalar = {
@@ -718,21 +936,28 @@ export type PropertySelectScalar = {
   bathrooms?: boolean
   area?: boolean
   imageUrl?: boolean
+  ownerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PropertyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "address" | "price" | "bedrooms" | "bathrooms" | "area" | "imageUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["property"]>
+export type PropertyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "address" | "price" | "bedrooms" | "bathrooms" | "area" | "imageUrl" | "ownerId" | "createdAt" | "updatedAt", ExtArgs["result"]["property"]>
 export type PropertyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  owner?: boolean | Prisma.Property$ownerArgs<ExtArgs>
   enquiries?: boolean | Prisma.Property$enquiriesArgs<ExtArgs>
   _count?: boolean | Prisma.PropertyCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type PropertyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type PropertyIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type PropertyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  owner?: boolean | Prisma.Property$ownerArgs<ExtArgs>
+}
+export type PropertyIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  owner?: boolean | Prisma.Property$ownerArgs<ExtArgs>
+}
 
 export type $PropertyPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Property"
   objects: {
+    owner: Prisma.$OwnerPayload<ExtArgs> | null
     enquiries: Prisma.$EnquiryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -745,6 +970,7 @@ export type $PropertyPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     bathrooms: number
     area: number | null
     imageUrl: string | null
+    ownerId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["property"]>
@@ -1141,6 +1367,7 @@ readonly fields: PropertyFieldRefs;
  */
 export interface Prisma__PropertyClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  owner<T extends Prisma.Property$ownerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Property$ownerArgs<ExtArgs>>): Prisma.Prisma__OwnerClient<runtime.Types.Result.GetResult<Prisma.$OwnerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   enquiries<T extends Prisma.Property$enquiriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Property$enquiriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnquiryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1180,6 +1407,7 @@ export interface PropertyFieldRefs {
   readonly bathrooms: Prisma.FieldRef<"Property", 'Int'>
   readonly area: Prisma.FieldRef<"Property", 'Int'>
   readonly imageUrl: Prisma.FieldRef<"Property", 'String'>
+  readonly ownerId: Prisma.FieldRef<"Property", 'String'>
   readonly createdAt: Prisma.FieldRef<"Property", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Property", 'DateTime'>
 }
@@ -1431,6 +1659,10 @@ export type PropertyCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
    */
   data: Prisma.PropertyCreateManyInput | Prisma.PropertyCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PropertyIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1501,6 +1733,10 @@ export type PropertyUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many Properties to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PropertyIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1567,6 +1803,25 @@ export type PropertyDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Properties to delete.
    */
   limit?: number
+}
+
+/**
+ * Property.owner
+ */
+export type Property$ownerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Owner
+   */
+  select?: Prisma.OwnerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Owner
+   */
+  omit?: Prisma.OwnerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OwnerInclude<ExtArgs> | null
+  where?: Prisma.OwnerWhereInput
 }
 
 /**

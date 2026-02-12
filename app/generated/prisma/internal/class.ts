@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.3.0",
   "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Property {\n  id          String    @id @default(cuid())\n  title       String\n  description String?\n  address     String\n  price       Decimal   @db.Decimal(12, 2)\n  bedrooms    Int       @default(0)\n  bathrooms   Int       @default(0)\n  area        Int? // m²\n  imageUrl    String?\n  createdAt   DateTime  @default(now())\n  updatedAt   DateTime  @updatedAt\n  enquiries   Enquiry[]\n}\n\nmodel Enquiry {\n  id         String   @id @default(cuid())\n  name       String\n  email      String\n  phone      String?\n  message    String\n  propertyId String\n  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)\n  createdAt  DateTime @default(now())\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Property {\n  id          String    @id @default(cuid())\n  title       String\n  description String?\n  address     String\n  price       Decimal   @db.Decimal(12, 2)\n  bedrooms    Int       @default(0)\n  bathrooms   Int       @default(0)\n  area        Int? // m²\n  imageUrl    String?\n  ownerId     String?\n  owner       Owner?    @relation(fields: [ownerId], references: [id], onDelete: SetNull)\n  createdAt   DateTime  @default(now())\n  updatedAt   DateTime  @updatedAt\n  enquiries   Enquiry[]\n}\n\nmodel Enquiry {\n  id         String   @id @default(cuid())\n  name       String\n  email      String\n  phone      String?\n  message    String\n  propertyId String\n  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)\n  createdAt  DateTime @default(now())\n}\n\nmodel Owner {\n  id         String     @id @default(cuid())\n  name       String\n  address    String?\n  phone      String?\n  email      String?\n  imageUrl   String?\n  properties Property[]\n  createdAt  DateTime   @default(now())\n  updatedAt  DateTime   @updatedAt\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Property\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"bedrooms\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"bathrooms\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"area\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"enquiries\",\"kind\":\"object\",\"type\":\"Enquiry\",\"relationName\":\"EnquiryToProperty\"}],\"dbName\":null},\"Enquiry\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"propertyId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"property\",\"kind\":\"object\",\"type\":\"Property\",\"relationName\":\"EnquiryToProperty\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Property\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"bedrooms\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"bathrooms\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"area\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"Owner\",\"relationName\":\"OwnerToProperty\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"enquiries\",\"kind\":\"object\",\"type\":\"Enquiry\",\"relationName\":\"EnquiryToProperty\"}],\"dbName\":null},\"Enquiry\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"propertyId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"property\",\"kind\":\"object\",\"type\":\"Property\",\"relationName\":\"EnquiryToProperty\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Owner\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"properties\",\"kind\":\"object\",\"type\":\"Property\",\"relationName\":\"OwnerToProperty\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -195,6 +195,16 @@ export interface PrismaClient<
     * ```
     */
   get enquiry(): Prisma.EnquiryDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.owner`: Exposes CRUD operations for the **Owner** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Owners
+    * const owners = await prisma.owner.findMany()
+    * ```
+    */
+  get owner(): Prisma.OwnerDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

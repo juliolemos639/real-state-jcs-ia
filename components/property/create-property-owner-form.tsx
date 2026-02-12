@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createPropertyWithUpload } from "@/app/actions/properties";
+import { createPropertyOwnerWithUpload } from "@/app/actions/owners";
 import { Loader2, ImageIcon, ExternalLink } from "lucide-react";
 import { PropertyOwnersHeader } from "../owners/property-owners-header";
 
@@ -78,7 +78,7 @@ export function CreatePropertyOwnerForm() {
                         const formData = new FormData(form);
                         startTransition(async () => {
                             try {
-                                await createPropertyWithUpload(formData);
+                                await createPropertyOwnerWithUpload(formData);
                                 router.push("/");
                                 router.refresh();
                             } catch (err) {

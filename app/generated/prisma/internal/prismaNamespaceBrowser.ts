@@ -52,7 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Property: 'Property',
-  Enquiry: 'Enquiry'
+  Enquiry: 'Enquiry',
+  Owner: 'Owner'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -81,6 +82,7 @@ export const PropertyScalarFieldEnum = {
   bathrooms: 'bathrooms',
   area: 'area',
   imageUrl: 'imageUrl',
+  ownerId: 'ownerId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -99,6 +101,20 @@ export const EnquiryScalarFieldEnum = {
 } as const
 
 export type EnquiryScalarFieldEnum = (typeof EnquiryScalarFieldEnum)[keyof typeof EnquiryScalarFieldEnum]
+
+
+export const OwnerScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  address: 'address',
+  phone: 'phone',
+  email: 'email',
+  imageUrl: 'imageUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OwnerScalarFieldEnum = (typeof OwnerScalarFieldEnum)[keyof typeof OwnerScalarFieldEnum]
 
 
 export const SortOrder = {

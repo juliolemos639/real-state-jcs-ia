@@ -18,6 +18,8 @@ model Property {
   bathrooms   Int       @default(0)
   area        Int?      // m²
   imageUrl    String?
+  ownerId     String? 
+  owner       Owner?    @relation(fields: [ownerId], references: [id], onDelete: SetNull)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   enquiries   Enquiry[]
@@ -32,4 +34,16 @@ model Enquiry {
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   createdAt  DateTime @default(now())
+}
+
+model Owner {
+  id         String    @id @default(cuid())
+  name       String
+  address    String?
+  phone      String?
+  email      String?
+  imageUrl   String?
+  properties Property[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }

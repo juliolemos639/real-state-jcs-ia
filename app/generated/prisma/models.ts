@@ -10,4 +10,5 @@
  */
 export type * from './models/Property'
 export type * from './models/Enquiry'
+export type * from './models/Owner'
 export type * from './commonInputTypes'

@@ -133,7 +133,7 @@ const data = {
         },
         {
             name: "Listar Proprietários",
-            url: "/proprietarios",
+            url: "/owners",
             icon: List,
         },
     ],
