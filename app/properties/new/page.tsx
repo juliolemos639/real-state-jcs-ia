@@ -1,5 +1,3 @@
-// import { CreatePropertyForm } from "@/components/create-property-form";
-
 import { CreatePropertyForm } from "@/components/property/create-property-form";
 
 export default function NewPropertyPage() {

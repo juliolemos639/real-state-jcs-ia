@@ -117,6 +117,11 @@ const data = {
             icon: PlusIcon,
         },
         {
+            name: "Cadastrar proprietário",
+            url: "/owners/new",
+            icon: PlusIcon,
+        },
+        {
             name: "Listar imóveis",
             url: "/properties",
             icon: List,
