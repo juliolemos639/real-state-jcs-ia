@@ -17,7 +17,15 @@ export function CreatePropertyOwnerForm() {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [phoneValue, setPhoneValue] = useState<string>("");
     const [properties, setProperties] = useState<Array<{ id: string; title: string; address?: string }>>([]);
+    const [owners, setOwners] = useState<Array<{ id: string; name: string; email?: string; phone?: string; address?: string; imageUrl?: string }>>([]);
     const [loadingProperties, setLoadingProperties] = useState<boolean>(false);
+    const [loadingOwners, setLoadingOwners] = useState<boolean>(false);
+    const [loadingOwnerData, setLoadingOwnerData] = useState<boolean>(false);
+    const nameInputRef = useRef<HTMLInputElement>(null);
+    const addressInputRef = useRef<HTMLInputElement>(null);
+    const phoneInputRef = useRef<HTMLInputElement>(null);
+    const emailInputRef = useRef<HTMLInputElement>(null);
+    const imageUrlInputRef = useRef<HTMLInputElement>(null);
 
     function formatPhone(value: string) {
         const digits = value.replace(/\D/g, "").slice(0, 11);
@@ -63,6 +71,49 @@ export function CreatePropertyOwnerForm() {
         };
     }, []);
 
+    useEffect(() => {
+        let mounted = true;
+        setLoadingOwners(true);
+        fetch("/api/owners")
+            .then((res) => res.json())
+            .then((data) => {
+                if (!mounted) return;
+                if (Array.isArray(data)) setOwners(data.map((o: any) => ({ id: o.id, name: o.name, email: o.email, phone: o.phone, address: o.address, imageUrl: o.imageUrl })));
+            })
+            .catch(() => {
+                /* ignore */
+            })
+            .finally(() => mounted && setLoadingOwners(false));
+        return () => {
+            mounted = false;
+        };
+    }, []);
+
+    async function handleOwnerSelect(e: React.ChangeEvent<HTMLSelectElement>) {
+        const ownerId = e.target.value;
+        if (!ownerId) {
+            // Limpar campos se nenhum proprietário for selecionado
+            if (nameInputRef.current) nameInputRef.current.value = "";
+            if (addressInputRef.current) addressInputRef.current.value = "";
+            if (emailInputRef.current) emailInputRef.current.value = "";
+            if (imageUrlInputRef.current) imageUrlInputRef.current.value = "";
+            setPhoneValue("");
+            return;
+        }
+
+        // Encontrar o proprietário na lista e preencher os campos
+        const selectedOwner = owners.find(o => o.id === ownerId);
+        if (selectedOwner) {
+            if (nameInputRef.current) nameInputRef.current.value = selectedOwner.name || "";
+            if (addressInputRef.current) addressInputRef.current.value = selectedOwner.address || "";
+            if (emailInputRef.current) emailInputRef.current.value = selectedOwner.email || "";
+            if (imageUrlInputRef.current) imageUrlInputRef.current.value = selectedOwner.imageUrl || "";
+            if (selectedOwner.phone) {
+                setPhoneValue(formatPhone(selectedOwner.phone));
+            }
+        }
+    }
+
     return (
         <div>
             <div>
@@ -88,17 +139,40 @@ export function CreatePropertyOwnerForm() {
                     }}
                 >
                     <div className="space-y-2">
-                        <Label htmlFor="name">Nome *</Label>
-                        <Input id="name" name="name" required placeholder="Ex: João da Silva" />
+                        <Label htmlFor="ownerId">Buscar proprietário existente (opcional)</Label>
+                        <select
+                            id="ownerId"
+                            className="w-full rounded-md border border-input bg-background px-3 py-2"
+                            onChange={handleOwnerSelect}
+                            disabled={loadingOwners}
+                            defaultValue=""
+                        >
+                            <option value="">Selecione um proprietário para carregar dados</option>
+                            {loadingOwners ? (
+                                <option disabled>Carregando...</option>
+                            ) : (
+                                owners.map((o) => (
+                                    <option key={o.id} value={o.id}>
+                                        {o.name}
+                                    </option>
+                                ))
+                            )}
+                        </select>
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="name">Nome * {owners.length > 0 && "(Digite para novo proprietário ou selecione acima)"}</Label>
+                        <Input ref={nameInputRef} id="name" name="name" required placeholder="Ex: João da Silva" />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="address">Endereço *</Label>
-                        <Input id="address" name="address" required placeholder="Rua, número, bairro, cidade" />
+                        <Input ref={addressInputRef} id="address" name="address" required placeholder="Rua, número, bairro, cidade" />
                     </div>
 
                     <div className="space-y-2">
                         <Label htmlFor="phone">Telefone *</Label>
                         <Input
+                            ref={phoneInputRef}
                             id="phone"
                             name="phone"
                             type="tel"
@@ -114,6 +188,7 @@ export function CreatePropertyOwnerForm() {
                     <div className="space-y-2">
                         <Label htmlFor="email">Email *</Label>
                         <Input
+                            ref={emailInputRef}
                             id="email"
                             name="email"
                             type="email"
@@ -173,6 +248,7 @@ export function CreatePropertyOwnerForm() {
                     <div className="space-y-2">
                         <Label htmlFor="imageUrl">Ou URL da imagem</Label>
                         <Input
+                            ref={imageUrlInputRef}
                             id="imageUrl"
                             name="imageUrl"
                             type="url"
