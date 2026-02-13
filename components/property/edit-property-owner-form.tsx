@@ -16,7 +16,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { createPropertyOwnerWithUpload } from "@/app/actions/owners";
+import { updatePropertyOwnerWithUpload } from "@/app/actions/owners";
 import { Loader2, ImageIcon, ExternalLink } from "lucide-react";
 import { PropertyOwnersHeader } from "../owners/property-owners-header";
 
@@ -24,7 +24,7 @@ import { PropertyOwnersHeader } from "../owners/property-owners-header";
 const phoneRegex = /^\(\d{2}\)\s?\d{4,5}-\d{4}$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const createPropertyOwnerSchema = z.object({
+const editPropertyOwnerSchema = z.object({
     name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
     address: z.string().min(5, "Endereço deve ter pelo menos 5 caracteres"),
     phone: z
@@ -39,31 +39,35 @@ const createPropertyOwnerSchema = z.object({
         .nullable()
         .optional()
         .refine((val) => !val || /^https?:\/\/\S+/.test(val), "URL deve ser válida"),
-    propertyId: z.string().optional(),
-    ownerId: z.string().optional(),
 });
 
-type CreatePropertyOwnerFormData = z.infer<typeof createPropertyOwnerSchema>;
+type EditPropertyOwnerFormData = z.infer<typeof editPropertyOwnerSchema>;
 
-export function CreatePropertyOwnerForm() {
+interface EditPropertyOwnerFormProps {
+    ownerId: string;
+    initialData: {
+        name: string;
+        address?: string | null;
+        phone?: string | null;
+        email?: string | null;
+        imageUrl?: string | null;
+    };
+}
+
+export function EditPropertyOwnerForm({ ownerId, initialData }: EditPropertyOwnerFormProps) {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(initialData.imageUrl || null);
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [properties, setProperties] = useState<Array<{ id: string; title: string; address?: string }>>([]);
-    const [owners, setOwners] = useState<Array<{ id: string; name: string; email?: string; phone?: string; address?: string; imageUrl?: string }>>([]);
-    const [loadingProperties, setLoadingProperties] = useState<boolean>(false);
-    const [loadingOwners, setLoadingOwners] = useState<boolean>(false);
 
-    const form = useForm<CreatePropertyOwnerFormData>({
-        resolver: zodResolver(createPropertyOwnerSchema),
+    const form = useForm<EditPropertyOwnerFormData>({
+        resolver: zodResolver(editPropertyOwnerSchema),
         defaultValues: {
-            name: "",
-            address: "",
-            phone: "",
-            email: "",
-            propertyId: "",
-            ownerId: "",
+            name: initialData.name || "",
+            address: initialData.address || "",
+            phone: initialData.phone || "",
+            email: initialData.email || "",
+            imageUrl: initialData.imageUrl || "",
         },
     }) as any;
 
@@ -77,97 +81,34 @@ export function CreatePropertyOwnerForm() {
 
     useEffect(() => {
         return () => {
-            if (previewUrl) URL.revokeObjectURL(previewUrl);
+            if (previewUrl && previewUrl !== initialData.imageUrl) URL.revokeObjectURL(previewUrl);
         };
-    }, [previewUrl]);
+    }, [previewUrl, initialData.imageUrl]);
 
     function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0];
-        if (previewUrl) {
+        if (previewUrl && previewUrl !== initialData.imageUrl) {
             URL.revokeObjectURL(previewUrl);
-            setPreviewUrl(null);
         }
         if (file && file.type.startsWith("image/")) {
             setPreviewUrl(URL.createObjectURL(file));
         }
     }
 
-    useEffect(() => {
-        let mounted = true;
-        setLoadingProperties(true);
-        fetch("/api/properties")
-            .then((res) => res.json())
-            .then((data) => {
-                if (!mounted) return;
-                if (Array.isArray(data)) setProperties(data.map((p: any) => ({ id: p.id, title: p.title, address: p.address })));
-            })
-            .catch(() => {
-                /* ignore */
-            })
-            .finally(() => mounted && setLoadingProperties(false));
-        return () => {
-            mounted = false;
-        };
-    }, []);
-
-    useEffect(() => {
-        let mounted = true;
-        setLoadingOwners(true);
-        fetch("/api/owners")
-            .then((res) => res.json())
-            .then((data) => {
-                if (!mounted) return;
-                if (Array.isArray(data)) setOwners(data.map((o: any) => ({ id: o.id, name: o.name, email: o.email, phone: o.phone, address: o.address, imageUrl: o.imageUrl })));
-            })
-            .catch(() => {
-                /* ignore */
-            })
-            .finally(() => mounted && setLoadingOwners(false));
-        return () => {
-            mounted = false;
-        };
-    }, []);
-
-    async function handleOwnerSelect(ownerId: string) {
-        if (!ownerId) {
-            form.reset({
-                name: "",
-                address: "",
-                phone: "",
-                email: "",
-                propertyId: "",
-                ownerId: "",
-            });
-            return;
-        }
-
-        const selectedOwner = owners.find(o => o.id === ownerId);
-        if (selectedOwner) {
-            form.setValue("name", selectedOwner.name || "");
-            form.setValue("address", selectedOwner.address || "");
-            form.setValue("email", selectedOwner.email || "");
-            form.setValue("imageUrl", selectedOwner.imageUrl || "");
-            if (selectedOwner.phone) {
-                form.setValue("phone", formatPhone(selectedOwner.phone));
-            }
-        }
-    }
-
     return (
         <div>
             <div>
-                <PropertyOwnersHeader propertyTitle="Cadastrar novo proprietário" />
+                <PropertyOwnersHeader propertyTitle="Editar proprietário" />
             </div>
             <div>
                 <Form {...form}>
                     <form
-                        onSubmit={form.handleSubmit((data: CreatePropertyOwnerFormData) => {
+                        onSubmit={form.handleSubmit((data: EditPropertyOwnerFormData) => {
                             const formData = new FormData();
                             formData.append("name", data.name);
                             formData.append("address", data.address);
                             formData.append("phone", data.phone);
                             formData.append("email", data.email);
-                            if (data.propertyId) formData.append("propertyId", data.propertyId);
                             if (data.imageUrl) formData.append("imageUrl", data.imageUrl);
                             if (fileInputRef.current?.files?.[0]) {
                                 formData.append("image", fileInputRef.current.files[0]);
@@ -175,46 +116,24 @@ export function CreatePropertyOwnerForm() {
 
                             startTransition(async () => {
                                 try {
-                                    await createPropertyOwnerWithUpload(formData);
-                                    router.push("/");
+                                    await updatePropertyOwnerWithUpload(ownerId, formData);
+                                    router.push(`/owners/${ownerId}`);
                                     router.refresh();
                                 } catch (err) {
                                     form.setError("root", {
-                                        message: err instanceof Error ? err.message : "Erro ao cadastrar proprietário.",
+                                        message: err instanceof Error ? err.message : "Erro ao atualizar proprietário.",
                                     });
                                 }
                             });
                         })}
                         className="space-y-6"
                     >
-                        <FormItem className="space-y-2">
-                            <FormLabel htmlFor="ownerId">Buscar proprietário existente (opcional)</FormLabel>
-                            <select
-                                id="ownerId"
-                                className="w-full rounded-md border border-input bg-background px-3 py-2"
-                                onChange={(e) => handleOwnerSelect(e.target.value)}
-                                disabled={loadingOwners}
-                                defaultValue=""
-                            >
-                                <option value="">Selecione um proprietário para carregar dados</option>
-                                {loadingOwners ? (
-                                    <option disabled>Carregando...</option>
-                                ) : (
-                                    owners.map((o) => (
-                                        <option key={o.id} value={o.id}>
-                                            {o.name}
-                                        </option>
-                                    ))
-                                )}
-                            </select>
-                        </FormItem>
-
                         <FormField
                             control={form.control}
                             name="name"
                             render={({ field }: any) => (
                                 <FormItem>
-                                    <FormLabel>Nome *{owners.length > 0 && " (Digite para novo proprietário ou selecione acima)"}</FormLabel>
+                                    <FormLabel>Nome *</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -358,32 +277,6 @@ export function CreatePropertyOwnerForm() {
                             )}
                         />
 
-                        <FormField
-                            control={form.control}
-                            name="propertyId"
-                            render={({ field }: any) => (
-                                <FormItem>
-                                    <FormLabel>Imóvel (opcional)</FormLabel>
-                                    <select
-                                        {...field}
-                                        className="w-full rounded-md border border-input bg-background px-3 py-2 disabled:opacity-50"
-                                        disabled={loadingProperties || isPending}
-                                    >
-                                        <option value="">Selecione um imóvel (opcional)</option>
-                                        {loadingProperties ? (
-                                            <option disabled>Carregando...</option>
-                                        ) : (
-                                            properties.map((p) => (
-                                                <option key={p.id} value={p.id}>
-                                                    {p.title} {p.address ? `— ${p.address}` : ""}
-                                                </option>
-                                            ))
-                                        )}
-                                    </select>
-                                </FormItem>
-                            )}
-                        />
-
                         {form.formState.errors.root && (
                             <div className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
                                 {form.formState.errors.root.message}
@@ -398,7 +291,7 @@ export function CreatePropertyOwnerForm() {
                                         Salvando...
                                     </>
                                 ) : (
-                                    "Cadastrar proprietário"
+                                    "Atualizar proprietário"
                                 )}
                             </Button>
                             <Button

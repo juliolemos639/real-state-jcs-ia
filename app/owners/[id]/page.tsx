@@ -11,7 +11,8 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ChevronLeft, Home, Mail, Phone, MapPin } from "lucide-react";
+import { ChevronLeft, Home, Mail, Phone, MapPin, Edit } from "lucide-react";
+import { DeleteOwnerButton } from "@/components/property/delete-owner-button";
 
 interface OwnerDetailsPageProps {
     params: { id: string } | Promise<{ id: string }>;
@@ -111,29 +112,44 @@ export default async function OwnerDetailsPage({
                         ) : (
                             <div className="h-40 w-40 rounded-lg bg-muted" />
                         )}
-                        <div className="flex flex-col justify-center">
-                            <h1 className="text-4xl font-bold mb-4">{owner.name}</h1>
-                            <div className="space-y-2">
-                                {owner.address && (
-                                    <div className="flex items-center gap-2 text-muted-foreground">
-                                        <MapPin className="h-5 w-5" />
-                                        <span>{owner.address}</span>
-                                    </div>
-                                )}
-                                {owner.phone && (
-                                    <div className="flex items-center gap-2 text-muted-foreground">
-                                        <Phone className="h-5 w-5" />
-                                        <span>{owner.phone}</span>
-                                    </div>
-                                )}
-                                {owner.email && (
-                                    <div className="flex items-center gap-2 text-muted-foreground">
-                                        <Mail className="h-5 w-5" />
-                                        <a href={`mailto:${owner.email}`} className="hover:text-foreground">
-                                            {owner.email}
-                                        </a>
-                                    </div>
-                                )}
+                        <div className="flex flex-col justify-between flex-1">
+                            <div>
+                                <h1 className="text-4xl font-bold mb-4">{owner.name}</h1>
+                                <div className="space-y-2">
+                                    {owner.address && (
+                                        <div className="flex items-center gap-2 text-muted-foreground">
+                                            <MapPin className="h-5 w-5" />
+                                            <span>{owner.address}</span>
+                                        </div>
+                                    )}
+                                    {owner.phone && (
+                                        <div className="flex items-center gap-2 text-muted-foreground">
+                                            <Phone className="h-5 w-5" />
+                                            <span>{owner.phone}</span>
+                                        </div>
+                                    )}
+                                    {owner.email && (
+                                        <div className="flex items-center gap-2 text-muted-foreground">
+                                            <Mail className="h-5 w-5" />
+                                            <a href={`mailto:${owner.email}`} className="hover:text-foreground">
+                                                {owner.email}
+                                            </a>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="flex gap-2 mt-4">
+                                <Button asChild variant="outline" size="sm">
+                                    <Link href={`/owners/${owner.id}/edit`} className="flex items-center gap-2">
+                                        <Edit className="h-4 w-4" />
+                                        Editar
+                                    </Link>
+                                </Button>
+                                <DeleteOwnerButton
+                                    ownerId={owner.id}
+                                    ownerName={owner.name}
+                                    propertiesCount={owner.properties?.length || 0}
+                                />
                             </div>
                         </div>
                     </div>

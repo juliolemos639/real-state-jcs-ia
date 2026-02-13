@@ -3,7 +3,8 @@ import { getOwners } from "@/app/actions/owners";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Mail, Phone } from "lucide-react";
+import { Plus, Mail, Phone, Edit } from "lucide-react";
+import { DeleteOwnerButton } from "@/components/property/delete-owner-button";
 
 interface Owner {
     id: string;
@@ -43,8 +44,8 @@ export default async function OwnersPage() {
             ) : (
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {owners.map((owner) => (
-                        <Link key={owner.id} href={`/owners/${owner.id}`}>
-                            <Card className="h-full cursor-pointer transition hover:shadow-lg">
+                        <Card key={owner.id} className="h-full flex flex-col">
+                            <Link href={`/owners/${owner.id}`} className="flex-1">
                                 <CardHeader className="pb-3">
                                     {owner.imageUrl && (
                                         // eslint-disable-next-line @next/next/no-img-element
@@ -83,8 +84,21 @@ export default async function OwnersPage() {
                                         </div>
                                     )}
                                 </CardContent>
-                            </Card>
-                        </Link>
+                            </Link>
+                            <div className="border-t px-6 py-3 flex gap-2">
+                                <Button asChild variant="outline" size="sm" className="flex-1">
+                                    <Link href={`/owners/${owner.id}/edit`} className="flex items-center gap-2">
+                                        <Edit className="h-4 w-4" />
+                                        Editar
+                                    </Link>
+                                </Button>
+                                <DeleteOwnerButton
+                                    ownerId={owner.id}
+                                    ownerName={owner.name}
+                                    propertiesCount={owner.properties?.length || 0}
+                                />
+                            </div>
+                        </Card>
                     ))}
                 </div>
             )}

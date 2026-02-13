@@ -38,7 +38,11 @@ const createPropertySchema = z.object({
     (val) => !val || emailRegex.test(val),
     "Email inválido"
   ),
-  ownerImageUrl: z.string().optional().or(z.literal("")),
+  ownerImageUrl: z
+    .string()
+    .nullable()
+    .optional()
+    .refine((val) => !val || /^https?:\/\/\S+/.test(val), "URL deve ser válida"),
   ownerId: z.string().optional().or(z.literal("")),
   // Property fields
   title: z.string().min(3, "Título deve ter pelo menos 3 caracteres"),
@@ -60,7 +64,11 @@ const createPropertySchema = z.object({
     (val) => !isNaN(parseInt(val)) && parseInt(val) >= 0,
     "Banheiros deve ser um número válido"
   ),
-  imageUrl: z.string().optional().or(z.literal("")),
+  imageUrl: z
+    .string()
+    .nullable()
+    .optional()
+    .refine((val) => !val || /^https?:\/\/\S+/.test(val), "URL deve ser válida"),
 });
 
 type CreatePropertyFormData = z.infer<typeof createPropertySchema>;
